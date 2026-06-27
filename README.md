@@ -34,6 +34,7 @@ A modern desktop weather application built with **Python** and **PyQt5** that pr
 - 🌐 Handles internet connection errors
 - 🔐 API key stored securely using `.env`
 - 🎨 Clean desktop interface built with PyQt5
+- ☀️🌙 Dark and light modes
 
 ---
 
@@ -129,7 +130,6 @@ The application handles:
 - 📅 5-Day forecast
 - 🕒 Hourly forecast
 - ❤️ Favorite cities
-- 🌙 Dark mode
 - 🌡️ Celsius/Fahrenheit switch
 - Search history
 
