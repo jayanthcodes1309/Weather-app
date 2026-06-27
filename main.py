@@ -13,6 +13,7 @@ class WeatherApp(QWidget):
         self.city_label = QLabel("Enter city name: ", self)
         self.city_input = QLineEdit(self)
         self.get_weather_button = QPushButton("Get Weather", self)
+        self.dark_mode_button = QPushButton("Dark mode", self)
         self.temprature_label = QLabel(self)
         self.emoji_label = QLabel(self)
         self.description_label = QLabel(self)
@@ -27,6 +28,7 @@ class WeatherApp(QWidget):
         vbox.addWidget(self.city_label)
         vbox.addWidget(self.city_input)
         vbox.addWidget(self.get_weather_button)
+        vbox.addWidget(self.dark_mode_button)
         vbox.addWidget(self.temprature_label)
         vbox.addWidget(self.emoji_label)
         vbox.addWidget(self.description_label)
@@ -42,6 +44,7 @@ class WeatherApp(QWidget):
         self.city_label.setObjectName("city_label")
         self.city_input.setObjectName("city_input")
         self.get_weather_button.setObjectName("get_weather_button")
+        self.dark_mode_button.setObjectName("dark_mode_button")
         self.temprature_label.setObjectName("temprature_label")
         self.emoji_label.setObjectName("emoji_label")
         self.description_label.setObjectName("description_label")
@@ -59,7 +62,11 @@ class WeatherApp(QWidget):
             }
             QPushButton#get_weather_button{
                 font-size: 30px;
-                font-weight: bold;           
+                font-weight: bold;
+            }
+            QPushButton#dark_mode_button{
+                font-size: 30px;
+                font-weight: bold;
             }
             QLabel#temprature_label{
                 font-size: 75px;               
@@ -74,6 +81,9 @@ class WeatherApp(QWidget):
         """)
 
         self.get_weather_button.clicked.connect(self.get_weather)
+        self.dark_mode_button.clicked.connect(self.toggle_dark_mode)
+
+        self.is_dark_mode = False
 
     def get_weather(self):
 
@@ -118,6 +128,106 @@ class WeatherApp(QWidget):
         except requests.exceptions.RequestException as req_error:
             self.display_error(f"Request Error:\n{req_error}")
 
+    def toggle_dark_mode(self):
+        if self.is_dark_mode:
+            self.apply_light_mode()
+        else:
+            self.apply_dark_mode()
+    def apply_light_mode(self):
+        light_stylesheet = """
+            Qlabel, QPushButton{
+                font-family: calibri;
+            }              
+            QLabel#city_label{
+                font-size: 40px;
+                font-style: italic;                                      
+            }
+            QLineEdit#city_input{
+                font-size: 35px;
+            }
+            QPushButton#get_weather_button{
+                font-size: 30px;
+                font-weight: bold;
+            }
+            QPushButton#dark_mode_button{
+                font-size: 30px;
+                font-weight: bold;
+            }
+            QLabel#temprature_label{
+                font-size: 75px;               
+            }
+            QLabel#emoji_label{
+                font-size: 100px;
+                font-family: Segoe UI emoji;               
+            }
+            QLabel#description_label{
+                font-size: 50px;               
+            }
+        """
+
+        self.setStyleSheet(light_stylesheet)
+        self.dark_mode_button.setText("🌙 Dark Mode")
+        self.is_dark_mode = False
+
+    def apply_dark_mode(self):
+        
+        dark_stylesheet = """
+            QWidget{
+                background-color: #0e0e12;
+            }
+            Qlabel, QPushButton{
+                font-family: calibri;
+                color: #ffffff;
+            }              
+            QLabel#city_label{
+                font-size: 40px;
+                font-style: italic;
+                color: #ffffff;                                      
+            }
+            QLineEdit#city_input{
+                font-size: 35px;
+                background-color: #2d2d2d;
+                color: #ffffff;
+                border: 1px solid #444444;
+                padding: 5px;
+                border-radius: 3px;
+            }
+            QPushButton#get_weather_button{
+                font-size: 30px;
+                font-weight: bold;
+                background-color: #2d2d2d;
+                color: #ffffff;
+                border: 1px solid #444444;
+                padding: 5px;
+                border-radius: 3px;
+            }
+            QPushButton#dark_mode_button{
+                font-size: 30px;
+                font-weight: bold;
+                background-color: #2d2d2d;
+                color: #ffffff;
+                border: 1px solid #444444;
+                padding: 5px;
+                border-radius: 3px;
+            }
+            QLabel#temprature_label{
+                font-size: 75px;
+                color: #ffffff;               
+            }
+            QLabel#emoji_label{
+                font-size: 100px;
+                font-family: Segoe UI emoji;
+                color: #ffffff;               
+            }
+            QLabel#description_label{
+                font-size: 50px;
+                color: #ffffff;               
+            }
+        """
+        
+        self.setStyleSheet(dark_stylesheet)
+        self.dark_mode_button.setText("☀️ Light Mode")
+        self.is_dark_mode = True
 
     def display_error(self, message):
         self.temprature_label.setStyleSheet("font-size: 30px;")
